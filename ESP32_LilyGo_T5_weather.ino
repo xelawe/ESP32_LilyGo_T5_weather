@@ -11,7 +11,7 @@
 #include "freertos/task.h"
 
 #include <SPI.h>
-#include <SD.h>
+//#include <SD.h>
 
 
 

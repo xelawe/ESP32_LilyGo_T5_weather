@@ -6,7 +6,7 @@ void setup()
 
   setupNetwork();
 
-  init_mqtt();
+  init_mqtt_local();
 
   init_tick();
 
@@ -17,7 +17,7 @@ void setup()
 void loop()
 {
 
-  reconnect();
+  //reconnect();
   check_mqtt_reset( );
 
   if (min_tick) {

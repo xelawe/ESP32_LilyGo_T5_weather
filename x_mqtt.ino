@@ -1,21 +1,34 @@
 
 #include "cy_mqtt_v1.h"
-#include <PubSubClient.h>
+//#include <PubSubClient.h>
 #include <ArduinoJson.h> //ArduinoJSON6
-//DynamicJsonDocument CONFIG(2048);
 
-const char* topic_TIME = "ATSH28/DATE/timestamp";
-const char* topic_TEMPA = "ATSH28/AUSSEN/TEMP/1/value";
-const char* topic_WIND = "ATSH28/AUSSEN/WIND/1/value";
-//const char* topic_CONFIG = "JSONConfig";
-//const char* topic_UP = "PICTURE";
+//const char* topic_TIME = "ATSH28/DATE/timestamp";
+//const char* topic_TEMPA = "ATSH28/AUSSEN/TEMP/1/value";
+//const char* topic_WIND = "ATSH28/AUSSEN/WIND/1/value";
 
 
+
+const char gc_stopic_TIME[] PROGMEM = "ATSH28/DATE/timestamp";
+const char gc_stopic_TempA[] PROGMEM = "ATSH28/AUSSEN/TEMP/1/value";
+const char gc_stopic_Wind[] PROGMEM = "ATSH28/AUSSEN/WIND/1/value";
+const char gc_stopic_TempI[] PROGMEM = "TempI";
+const char gc_stopic_BrghtI[] PROGMEM = "BrghtI";
+const char* const gt_stopic[] PROGMEM = { gc_stopic_TIME, gc_stopic_TempA, gc_stopic_Wind, gc_stopic_TempI, gc_stopic_BrghtI };
+char gv_stopic[5][MQTT_TOPSZ];
+
+char gv_sbuffer[MQTT_TOPSZ];// buffer for reading the string to (needs to be large enough to take the longest string
 
 char gv_ptopic[MQTT_TOPSZ];
 
 time_t gv_timestamp_mqtt;
 boolean gv_timestamp_mqtt_ok = false;
+
+float tempC1;
+boolean gv_temp1 = false;
+
+float gv_BrghtI;
+boolean gv_BrghtI_ok = false;
 
 float tempC2;
 boolean gv_temp2 = false;

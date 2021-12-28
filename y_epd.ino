@@ -25,8 +25,8 @@ void init_epd( ) {
 void display_values() {
   String disp_str;
 
-  epd_fill_rect(0, 0, 600, y_offs - 1, 0, framebuffer);
-  epd_fill_rect(0, 0, 600, y_offs - 1, 255, framebuffer);
+  epd_fill_rect(0, 0, EPD_WIDTH, y_offs - 1, 0, framebuffer);
+  epd_fill_rect(0, 0, EPD_WIDTH, y_offs - 1, 255, framebuffer);
 
   if ( gv_timestamp_mqtt_ok == true ) {
 
@@ -46,7 +46,8 @@ void display_values() {
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  epd_draw_hline(0, 60, 699, 0, framebuffer);
+  //epd_draw_hline(0, 60, 699, 0, framebuffer);
+  epd_draw_hline(0, 60, EPD_WIDTH, 0, framebuffer);
 
 
   if ( gv_temp2 == true ) {
@@ -68,7 +69,7 @@ void display_values() {
 
   if ( gv_wind_ok == true ) {
     Rect_t area = {
-      .x = 250,
+      .x = 240,
       .y = 61,
       .width = icon_wi_width,
       .height =  icon_wi_height
@@ -84,48 +85,75 @@ void display_values() {
   }
 
   Rect_t area = {
-    .x = 500,
+    .x = 475,
     .y = 61,
     .width = icon_ra_width,
     .height =  icon_ra_height
   };
   epd_copy_to_framebuffer(area, (uint8_t *) icon_ra_data, framebuffer);
 
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   area = {
-    .x = 5,
-    .y = 121,
-    .width = icon_ti_width,
-    .height =  icon_ti_height
+    .x = 710,
+    .y = 61,
+    .width = icon_wl_width,
+    .height =  icon_wl_height
   };
-  epd_copy_to_framebuffer(area, (uint8_t *) icon_ti_data, framebuffer);
+  epd_copy_to_framebuffer(area, (uint8_t *) icon_wl_data, framebuffer);
 
-  disp_str = "?.? °C";
-  int cursor_dt_x = 80;
-  int cursor_dt_y = 160;
-  writeln((GFXfont *)&FiraSans, (char *)disp_str.c_str(), &cursor_dt_x, &cursor_dt_y, framebuffer);
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  if ( gv_temp1 == true ) {
 
-  epd_draw_hline(0, y_offs - 1, 699, 0, framebuffer);
+    area = {
+      .x = 5,
+      .y = 121,
+      .width = icon_ti_width,
+      .height =  icon_ti_height
+    };
+    epd_copy_to_framebuffer(area, (uint8_t *) icon_ti_data, framebuffer);
+
+    disp_str = String(tempC1, 1) + " °C";
+    int cursor_dt_x = 80;
+    int cursor_dt_y = 160;
+    writeln((GFXfont *)&FiraSans, (char *)disp_str.c_str(), &cursor_dt_x, &cursor_dt_y, framebuffer);
+  }
 
   area = {
-    .x = 250,
+    .x = 240,
     .y = 121,
     .width = icon_hu_width,
     .height =  icon_hu_height
   };
   epd_copy_to_framebuffer(area, (uint8_t *) icon_hu_data, framebuffer);
 
-  area = {
-    .x = 500,
-    .y = 121,
-    .width = icon_hy_width,
-    .height =  icon_hy_height
-  };
-  epd_copy_to_framebuffer(area, (uint8_t *) icon_hy_data, framebuffer);
+  //  area = {
+  //    .x = 475,
+  //    .y = 121,
+  //    .width = icon_hy_width,
+  //    .height =  icon_hy_height
+  //  };
+  //  epd_copy_to_framebuffer(area, (uint8_t *) icon_hy_data, framebuffer);
+
+  if (gv_BrghtI_ok) {
+
+    area = {
+      .x = 710,
+      .y = 121,
+      .width = icon_su_width,
+      .height =  icon_su_height
+    };
+    epd_copy_to_framebuffer(area, (uint8_t *) icon_su_data, framebuffer);
+
+    disp_str = String(gv_BrghtI, 1) + " lx";
+    int cursor_dt_x = 785;
+    int cursor_dt_y = 160;
+    writeln((GFXfont *)&FiraSans, (char *)disp_str.c_str(), &cursor_dt_x, &cursor_dt_y, framebuffer);
+  }
+
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  //epd_draw_hline(0, y_offs - 1, 699, 0, framebuffer);
+  epd_draw_hline(0, y_offs - 1, 960, 0, framebuffer);
 
 }
-
-
 
 
 /** Draw the pixels to the screen

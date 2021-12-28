@@ -1,4 +1,4 @@
-#pragma once
+#//pragma once
 #include "epd_driver.h"
 #include "firasans.h"
 //#include "esp_adc_cal.h"
@@ -6,10 +6,11 @@
 // python3 imgconvert.py -i ~/Bilder/icons8-temperature-inside-50.png -n icon_ti -o ~/Dokumente/Arduino/ESP32_LilyGo_T5_weather/icon_ti.h
 #include "icon_to.h"
 #include "icon_wi.h"
-#include "icon_hy.h"
+#include "icon_wl.h"
 #include "icon_ti.h"
 #include "icon_hu.h"
 #include "icon_ra.h"
+#include "icon_su.h"
 
 #define BATT_PIN            36
 //#define SD_MISO             12
