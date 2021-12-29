@@ -1,6 +1,6 @@
 void check_touch() {
   uint16_t  x, y;
-  uint8_t state = 0;
+  int state = 0;
 
   if (digitalRead(TOUCH_INT)) {
     if (touch.scanPoint()) {
@@ -24,11 +24,14 @@ void check_touch() {
 
       Serial.print(millis());
       Serial.print(":");
+      gv_touch_off_ms = millis() + 150;
+      Serial.print(gv_touch_off_ms);
+      Serial.print(":");
       Serial.println(state);
 
       if (gv_state != state) {
-        pub_touch( state);
         gv_state = state;
+        pub_touch( gv_state);
       }
 
 
@@ -55,10 +58,22 @@ void check_touch() {
       }
       while (digitalRead(TOUCH_INT)) {
       }
+
     }
+  } else {
+
+    if ((gv_state == -1) || (millis() < gv_touch_off_ms )) {
+      return;
+    }
+    gv_state = -1;
+    pub_touch( gv_state);
+    Serial.print(millis());
+    Serial.print(":");
+    Serial.print(gv_touch_off_ms);
+    Serial.print(":");
+    Serial.println(gv_state);
   }
 }
-
 
 
 void init_touch() {

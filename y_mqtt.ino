@@ -41,60 +41,12 @@ void callback_BrghtI(String topic, byte* message, unsigned int length) {
   gv_BrghtI_ok = true;
 }
 
-
-void callback(String topic, byte* message, unsigned int length) {
-  String messageTemp;
-  for (int i = 0; i < length; i++) {
-    messageTemp += (char)message[i];
-  }
-  //  if (topic == topic_TIME) {
-  //    Serial.println("Time");
-  //    gv_timestamp_mqtt = payload_to_time_t( message, length);
-  //    gv_timestamp_mqtt_ok = true;
-  //    tick_min();
-  //  }
-  //  if (topic == topic_TEMPA) {
-  //    Serial.println("TempA");
-  //    tempC2 = payload_to_float( message, length);
-  //    gv_temp2 = true;
-  //  }
-
-  //  if (topic == topic_WIND) {
-  //    Serial.println("Wind");
-  //    gv_wind = payload_to_float( message, length);
-  //    gv_wind_ok = true;
-  //  }
-
-}
-
-void pub_touch(uint8_t iv_button) {
+void pub_touch(int iv_button) {
   char buffer[10];
-  dtostrf(iv_button, 0, 0, buffer);
+  // dtostrf(iv_button, 0, 0, buffer);
+  itoa(iv_button, buffer, 10);
   client.publish(mqtt_GetTopic_P(gv_ptopic, mqtt_pre_stat, gv_clientname, (PGM_P)F("Button")), buffer, true);
 }
-
-
-//void pub_sens() {
-//
-//  char buffer[256];
-//  //dtostrf(fire.NUMFirePIXELS, 0, 0, buffer);
-//
-//  // Allocate the JSON document
-//  //
-//  // Inside the brackets, 200 is the RAM allocated to this document.
-//  // Don't forget to change this value to match your requirement.
-//  // Use arduinojson.org/v6/assistant to compute the capacity.
-//  StaticJsonDocument<200> jsondoc;
-//
-//  // Add values in the document
-//  JsonObject lv_ldr = jsondoc.createNestedObject("AS312");
-//  //lv_ldr["Status"] = gv_as312_trigger;
-//
-//  int n  = serializeJson(jsondoc, buffer);
-//
-//  client.publish(mqtt_GetTopic_P(gv_ptopic, mqtt_pre_tele, gv_clientname, (PGM_P)F("SENSOR")), buffer, true);
-//}
-
 
 time_t payload_to_time_t( byte* payload, unsigned int length) {
   time_t lv_time_t = 0;

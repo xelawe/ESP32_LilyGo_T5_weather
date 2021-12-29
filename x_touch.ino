@@ -2,8 +2,8 @@
 #define TOUCH_INT   13
 TouchClass touch;
 
-uint8_t gv_state = 0;
-
+int gv_state = 0;
+unsigned long gv_touch_off_ms = 0;
 
 
 int touch_btn1_x = 600;
