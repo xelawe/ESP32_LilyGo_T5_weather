@@ -9,6 +9,8 @@ void init_mqtt_local() {
   add_subtopic(mqtt_GetTopic_P(gv_stopic[2], mqtt_pre_none, gv_clientname, get_stopic_ix(2)), callback_Wind);
   add_subtopic(mqtt_GetTopic_P(gv_stopic[3], mqtt_pre_cmnd, gv_clientname, get_stopic_ix(3)), callback_TempI);
   add_subtopic(mqtt_GetTopic_P(gv_stopic[4], mqtt_pre_cmnd, gv_clientname, get_stopic_ix(4)), callback_BrghtI);
+  add_subtopic(mqtt_GetTopic_P(gv_stopic[5], mqtt_pre_none, gv_clientname, get_stopic_ix(5)), callback_WaterL);
+    add_subtopic(mqtt_GetTopic_P(gv_stopic[6], mqtt_pre_cmnd, gv_clientname, get_stopic_ix(6)), callback_HumiI);
 }
 
 
@@ -36,9 +38,20 @@ void callback_Wind(String topic, byte* message, unsigned int length) {
   gv_wind_ok = true;
 }
 
+void callback_WaterL(String topic, byte* message, unsigned int length) {
+  gv_waterl = payload_to_float( message, length);
+  gv_waterl_ok = true;
+}
+
 void callback_BrghtI(String topic, byte* message, unsigned int length) {
   gv_BrghtI = payload_to_float( message, length);
   gv_BrghtI_ok = true;
+}
+
+
+void callback_HumiI(String topic, byte* message, unsigned int length) {
+  gv_HumiI = payload_to_float( message, length);
+  gv_HumiI_ok = true;
 }
 
 void pub_touch(int iv_button) {
@@ -68,6 +81,7 @@ time_t payload_to_time_t( byte* payload, unsigned int length) {
 }
 
 float payload_to_float( byte* payload, unsigned int length) {
+
   float lv_float = 0;
   float lv_fact = 0;
   float lv_sign = 1;

@@ -76,10 +76,8 @@ void display_values() {
     };
     epd_copy_to_framebuffer(area, (uint8_t *) icon_wi_data, framebuffer);
 
-
     int cursor_dt_x = 300;
     int cursor_dt_y = 100;
-
     disp_str = String(gv_wind, 0) + " km/h";
     writeln((GFXfont *)&FiraSans, (char *)disp_str.c_str(), &cursor_dt_x, &cursor_dt_y, framebuffer);
   }
@@ -92,13 +90,20 @@ void display_values() {
   };
   epd_copy_to_framebuffer(area, (uint8_t *) icon_ra_data, framebuffer);
 
-  area = {
-    .x = 710,
-    .y = 61,
-    .width = icon_wl_width,
-    .height =  icon_wl_height
-  };
-  epd_copy_to_framebuffer(area, (uint8_t *) icon_wl_data, framebuffer);
+  if ( gv_waterl ) {
+    area = {
+      .x = 710,
+      .y = 61,
+      .width = icon_wl_width,
+      .height =  icon_wl_height
+    };
+    epd_copy_to_framebuffer(area, (uint8_t *) icon_wl_data, framebuffer);
+
+    disp_str = String(gv_waterl, 0) + " cm";
+    int cursor_dt_x = 785;
+    int cursor_dt_y = 100;
+    writeln((GFXfont *)&FiraSans, (char *)disp_str.c_str(), &cursor_dt_x, &cursor_dt_y, framebuffer);
+  }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   if ( gv_temp1 == true ) {
@@ -117,21 +122,28 @@ void display_values() {
     writeln((GFXfont *)&FiraSans, (char *)disp_str.c_str(), &cursor_dt_x, &cursor_dt_y, framebuffer);
   }
 
-  area = {
-    .x = 240,
-    .y = 121,
-    .width = icon_hu_width,
-    .height =  icon_hu_height
-  };
-  epd_copy_to_framebuffer(area, (uint8_t *) icon_hu_data, framebuffer);
+  if (gv_HumiI_ok) {
+    area = {
+      .x = 240,
+      .y = 121,
+      .width = icon_hu_width,
+      .height =  icon_hu_height
+    };
+    epd_copy_to_framebuffer(area, (uint8_t *) icon_hu_data, framebuffer);
 
-  //  area = {
-  //    .x = 475,
-  //    .y = 121,
-  //    .width = icon_hy_width,
-  //    .height =  icon_hy_height
-  //  };
-  //  epd_copy_to_framebuffer(area, (uint8_t *) icon_hy_data, framebuffer);
+    disp_str = String(gv_HumiI, 0) + " %";
+    int cursor_dt_x = 300;
+    int cursor_dt_y = 160;
+    writeln((GFXfont *)&FiraSans, (char *)disp_str.c_str(), &cursor_dt_x, &cursor_dt_y, framebuffer);
+  }
+
+//    area = {
+//      .x = 475,
+//      .y = 121,
+//      .width = icon_??_width,
+//      .height =  icon_??_height
+//    };
+//    epd_copy_to_framebuffer(area, (uint8_t *) icon_??_data, framebuffer);
 
   if (gv_BrghtI_ok) {
 
@@ -143,7 +155,7 @@ void display_values() {
     };
     epd_copy_to_framebuffer(area, (uint8_t *) icon_su_data, framebuffer);
 
-    disp_str = String(gv_BrghtI, 1) + " lx";
+    disp_str = String(gv_BrghtI, 0) + " lx";
     int cursor_dt_x = 785;
     int cursor_dt_y = 160;
     writeln((GFXfont *)&FiraSans, (char *)disp_str.c_str(), &cursor_dt_x, &cursor_dt_y, framebuffer);
