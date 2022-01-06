@@ -4,13 +4,22 @@
 //#include "esp_adc_cal.h"
 
 // python3 imgconvert.py -i ~/Bilder/icons8-temperature-inside-50.png -n icon_ti -o ~/Dokumente/Arduino/ESP32_LilyGo_T5_weather/icon_ti.h
-#include "icon_to.h"
-#include "icon_wi.h"
-#include "icon_wl.h"
-#include "icon_ti.h"
-#include "icon_hu.h"
-#include "icon_ra.h"
-#include "icon_su.h"
+#include "zz_icon_to.h"
+#include "zz_icon_wi.h"
+#include "zz_icon_wl.h"
+#include "zz_icon_ti.h"
+#include "zz_icon_hu.h"
+#include "zz_icon_ra.h"
+#include "zz_icon_su.h"
+
+int icon_top = 62;
+int icon_1_x = 5;
+int icon_1_y = icon_top + 3;
+int data_1_x = icon_1_x + 75;
+int data_1_y = icon_1_y + 40;
+int icon_data_x_offs = 235;
+int icon_data_y_offs = 60;
+
 
 #define BATT_PIN            36
 //#define SD_MISO             12

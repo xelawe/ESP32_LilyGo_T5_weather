@@ -1,27 +1,4 @@
 
-void init_epd( ) {
-
-  epd_init();
-
-  epd_poweron();
-  epd_clear();
-
-
-  framebuffer = (uint8_t *)ps_calloc(sizeof(uint8_t), EPD_WIDTH * EPD_HEIGHT / 2);
-  if (!framebuffer) {
-    Serial.println("alloc memory failed !!!");
-    while (1);
-  }
-  memset(framebuffer, 0xFF, EPD_WIDTH * EPD_HEIGHT / 2);
-
-  //epd_fill_circle(740, 450, 3, 0, framebuffer);
-
-  epd_draw_grayscale_image(epd_full_screen(), framebuffer);
-  epd_poweroff();
-
-}
-
-
 void display_values() {
   String disp_str;
 
@@ -46,69 +23,73 @@ void display_values() {
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  //epd_draw_hline(0, 60, 699, 0, framebuffer);
-  epd_draw_hline(0, 60, EPD_WIDTH, 0, framebuffer);
+  epd_draw_hline(0, icon_top, EPD_WIDTH, 0, framebuffer);
 
+  int icon_x = icon_1_x;
+  int icon_y = icon_1_y;
+  int data_x = data_1_x;
+  int data_y = data_1_y;
 
+  Serial.print("Data_X "); Serial.println(data_x);
   if ( gv_temp2 == true ) {
-
-    Rect_t area = {
-      .x = 5,
-      .y = 61,
-      .width = icon_to_width,
-      .height =  icon_to_height
-    };
+    Rect_t area = { .x = icon_x, .y = icon_y, .width = icon_to_width, .height = icon_to_height };
     epd_copy_to_framebuffer(area, (uint8_t *) icon_to_data, framebuffer);
 
-    int cursor_dt_x = 80;
-    int cursor_dt_y = 100;
-
     disp_str = String(tempC2, 1) + " °C";
+    int cursor_dt_x = data_x;
+    int cursor_dt_y = data_y;
     writeln((GFXfont *)&FiraSans, (char *)disp_str.c_str(), &cursor_dt_x, &cursor_dt_y, framebuffer);
   }
-
+  icon_x = icon_x + icon_data_x_offs;
+  data_x = data_x + icon_data_x_offs;
+  
+  Serial.print("Data_X "); Serial.println(data_x);
   if ( gv_wind_ok == true ) {
-    Rect_t area = {
-      .x = 240,
-      .y = 61,
-      .width = icon_wi_width,
-      .height =  icon_wi_height
-    };
+    Rect_t area = { .x = icon_x, .y = icon_y, .width = icon_wi_width, .height = icon_wi_height };
     epd_copy_to_framebuffer(area, (uint8_t *) icon_wi_data, framebuffer);
 
-    int cursor_dt_x = 300;
-    int cursor_dt_y = 100;
     disp_str = String(gv_wind, 0) + " km/h";
+    int cursor_dt_x = data_x;
+    int cursor_dt_y = data_y;
     writeln((GFXfont *)&FiraSans, (char *)disp_str.c_str(), &cursor_dt_x, &cursor_dt_y, framebuffer);
   }
 
-  Rect_t area = {
-    .x = 475,
-    .y = 61,
-    .width = icon_ra_width,
-    .height =  icon_ra_height
-  };
-  epd_copy_to_framebuffer(area, (uint8_t *) icon_ra_data, framebuffer);
+  icon_x = icon_x + icon_data_x_offs;
+  data_x = data_x + icon_data_x_offs;
+  Serial.print("Data_X "); Serial.println(data_x);
+  if ( gv_Rain24h_ok ) {
+    Rect_t area = { .x = icon_x, .y = icon_y, .width = icon_ra_width, .height = icon_ra_height };
+    epd_copy_to_framebuffer(area, (uint8_t *) icon_ra_data, framebuffer);
 
-  if ( gv_waterl ) {
-    area = {
-      .x = 710,
-      .y = 61,
-      .width = icon_wl_width,
-      .height =  icon_wl_height
-    };
+    disp_str = String(gv_Rain24h, 1) + " mm";
+    int cursor_dt_x = data_x;
+    int cursor_dt_y = data_y;
+    writeln((GFXfont *)&FiraSans, (char *)disp_str.c_str(), &cursor_dt_x, &cursor_dt_y, framebuffer);
+  }
+
+  icon_x = icon_x + icon_data_x_offs;
+  data_x = data_x + icon_data_x_offs;
+  Serial.print("Data_X "); Serial.println(data_x);
+  if ( gv_waterl_ok ) {
+    Rect_t area = { .x = icon_x, .y = icon_y, .width = icon_wl_width, .height = icon_wl_height };
     epd_copy_to_framebuffer(area, (uint8_t *) icon_wl_data, framebuffer);
 
     disp_str = String(gv_waterl, 0) + " cm";
-    int cursor_dt_x = 785;
-    int cursor_dt_y = 100;
+    int cursor_dt_x = data_x;
+    int cursor_dt_y = data_y;
     writeln((GFXfont *)&FiraSans, (char *)disp_str.c_str(), &cursor_dt_x, &cursor_dt_y, framebuffer);
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   icon_x = icon_1_x;
+   icon_y = icon_1_y + icon_data_y_offs;
+   data_x = data_1_x;
+   data_y = data_1_y + icon_data_y_offs;
+  
   if ( gv_temp1 == true ) {
 
-    area = {
+    Rect_t area = {
       .x = 5,
       .y = 121,
       .width = icon_ti_width,
@@ -117,13 +98,15 @@ void display_values() {
     epd_copy_to_framebuffer(area, (uint8_t *) icon_ti_data, framebuffer);
 
     disp_str = String(tempC1, 1) + " °C";
-    int cursor_dt_x = 80;
-    int cursor_dt_y = 160;
+    int cursor_dt_x = data_x;
+    int cursor_dt_y = data_y;
     writeln((GFXfont *)&FiraSans, (char *)disp_str.c_str(), &cursor_dt_x, &cursor_dt_y, framebuffer);
   }
 
+  icon_x = icon_x + icon_data_x_offs;
+  data_x = data_x + icon_data_x_offs;
   if (gv_HumiI_ok) {
-    area = {
+    Rect_t area = {
       .x = 240,
       .y = 121,
       .width = icon_hu_width,
@@ -132,22 +115,26 @@ void display_values() {
     epd_copy_to_framebuffer(area, (uint8_t *) icon_hu_data, framebuffer);
 
     disp_str = String(gv_HumiI, 0) + " %";
-    int cursor_dt_x = 300;
-    int cursor_dt_y = 160;
+    int cursor_dt_x = data_x;
+    int cursor_dt_y = data_y;
     writeln((GFXfont *)&FiraSans, (char *)disp_str.c_str(), &cursor_dt_x, &cursor_dt_y, framebuffer);
   }
 
-//    area = {
-//      .x = 475,
-//      .y = 121,
-//      .width = icon_??_width,
-//      .height =  icon_??_height
-//    };
-//    epd_copy_to_framebuffer(area, (uint8_t *) icon_??_data, framebuffer);
+  icon_x = icon_x + icon_data_x_offs;
+  data_x = data_x + icon_data_x_offs;
+  //    Rect_t area = {
+  //      .x = 475,
+  //      .y = 121,
+  //      .width = icon_??_width,
+  //      .height =  icon_??_height
+  //    };
+  //    epd_copy_to_framebuffer(area, (uint8_t *) icon_??_data, framebuffer);
 
+  icon_x = icon_x + icon_data_x_offs;
+  data_x = data_x + icon_data_x_offs;
   if (gv_BrghtI_ok) {
 
-    area = {
+    Rect_t area = {
       .x = 710,
       .y = 121,
       .width = icon_su_width,
@@ -156,8 +143,8 @@ void display_values() {
     epd_copy_to_framebuffer(area, (uint8_t *) icon_su_data, framebuffer);
 
     disp_str = String(gv_BrghtI, 0) + " lx";
-    int cursor_dt_x = 785;
-    int cursor_dt_y = 160;
+    int cursor_dt_x = data_x;
+    int cursor_dt_y = data_y;
     writeln((GFXfont *)&FiraSans, (char *)disp_str.c_str(), &cursor_dt_x, &cursor_dt_y, framebuffer);
   }
 
@@ -221,5 +208,27 @@ void drawPixels(char *data, size_t len, boolean start) {
 
     }
   }
+
+}
+
+void init_epd( ) {
+
+  epd_init();
+
+  epd_poweron();
+  epd_clear();
+
+
+  framebuffer = (uint8_t *)ps_calloc(sizeof(uint8_t), EPD_WIDTH * EPD_HEIGHT / 2);
+  if (!framebuffer) {
+    Serial.println("alloc memory failed !!!");
+    while (1);
+  }
+  memset(framebuffer, 0xFF, EPD_WIDTH * EPD_HEIGHT / 2);
+
+  //epd_fill_circle(740, 450, 3, 0, framebuffer);
+
+  epd_draw_grayscale_image(epd_full_screen(), framebuffer);
+  epd_poweroff();
 
 }

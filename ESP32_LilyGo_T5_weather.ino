@@ -13,8 +13,6 @@
 #include <SPI.h>
 //#include <SD.h>
 
-
-
 //#include "cy_ota.h"
 
 void init_ser() {

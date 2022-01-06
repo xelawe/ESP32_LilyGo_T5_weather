@@ -13,10 +13,11 @@ const char gc_stopic_TIME[] PROGMEM = "ATSH28/DATE/timestamp";
 const char gc_stopic_TempA[] PROGMEM = "ATSH28/AUSSEN/TEMP/1/value";
 const char gc_stopic_Wind[] PROGMEM = "ATSH28/AUSSEN/WIND/1/value";
 const char gc_stopic_WaterL[] PROGMEM = "ATSH28/AUSSEN/WATERLEVEL/1/value";
+const char gc_stopic_Rain24h[] PROGMEM = "ATSH28/AUSSEN/RAIN24H/1/value";
 const char gc_stopic_TempI[] PROGMEM = "TempI";
 const char gc_stopic_BrghtI[] PROGMEM = "BrghtI";
 const char gc_stopic_HumiI[] PROGMEM = "HumiI";
-const char* const gt_stopic[] PROGMEM = { gc_stopic_TIME, gc_stopic_TempA, gc_stopic_Wind, gc_stopic_TempI, gc_stopic_BrghtI, gc_stopic_WaterL, gc_stopic_HumiI };
+const char* const gt_stopic[] PROGMEM = { gc_stopic_TIME, gc_stopic_TempA, gc_stopic_Wind, gc_stopic_TempI, gc_stopic_BrghtI, gc_stopic_WaterL, gc_stopic_HumiI, gc_stopic_Rain24h };
 char gv_stopic[sizeof(gt_stopic)][MQTT_TOPSZ];
 
 char gv_sbuffer[MQTT_TOPSZ];// buffer for reading the string to (needs to be large enough to take the longest string
@@ -34,6 +35,9 @@ boolean gv_BrghtI_ok = false;
 
 float gv_HumiI;
 boolean gv_HumiI_ok = false;
+
+float gv_Rain24h;
+boolean gv_Rain24h_ok = false;
 
 float tempC2;
 boolean gv_temp2 = false;

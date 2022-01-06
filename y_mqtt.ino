@@ -10,7 +10,8 @@ void init_mqtt_local() {
   add_subtopic(mqtt_GetTopic_P(gv_stopic[3], mqtt_pre_cmnd, gv_clientname, get_stopic_ix(3)), callback_TempI);
   add_subtopic(mqtt_GetTopic_P(gv_stopic[4], mqtt_pre_cmnd, gv_clientname, get_stopic_ix(4)), callback_BrghtI);
   add_subtopic(mqtt_GetTopic_P(gv_stopic[5], mqtt_pre_none, gv_clientname, get_stopic_ix(5)), callback_WaterL);
-    add_subtopic(mqtt_GetTopic_P(gv_stopic[6], mqtt_pre_cmnd, gv_clientname, get_stopic_ix(6)), callback_HumiI);
+  add_subtopic(mqtt_GetTopic_P(gv_stopic[6], mqtt_pre_cmnd, gv_clientname, get_stopic_ix(6)), callback_HumiI);
+  add_subtopic(mqtt_GetTopic_P(gv_stopic[7], mqtt_pre_none, gv_clientname, get_stopic_ix(7)), callback_Rain24h);
 }
 
 
@@ -52,6 +53,11 @@ void callback_BrghtI(String topic, byte* message, unsigned int length) {
 void callback_HumiI(String topic, byte* message, unsigned int length) {
   gv_HumiI = payload_to_float( message, length);
   gv_HumiI_ok = true;
+}
+
+void callback_Rain24h(String topic, byte* message, unsigned int length) {
+  gv_Rain24h = payload_to_float( message, length);
+  gv_Rain24h_ok = true;
 }
 
 void pub_touch(int iv_button) {
