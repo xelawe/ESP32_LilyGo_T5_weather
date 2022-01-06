@@ -17,7 +17,10 @@ const char gc_stopic_Rain24h[] PROGMEM = "ATSH28/AUSSEN/RAIN24H/1/value";
 const char gc_stopic_TempI[] PROGMEM = "TempI";
 const char gc_stopic_BrghtI[] PROGMEM = "BrghtI";
 const char gc_stopic_HumiI[] PROGMEM = "HumiI";
-const char* const gt_stopic[] PROGMEM = { gc_stopic_TIME, gc_stopic_TempA, gc_stopic_Wind, gc_stopic_TempI, gc_stopic_BrghtI, gc_stopic_WaterL, gc_stopic_HumiI, gc_stopic_Rain24h };
+const char gc_stopic_Btn1_Act[] PROGMEM = "Btn1";
+const char gc_stopic_Btn2_Act[] PROGMEM = "Btn2";
+const char* const gt_stopic[] PROGMEM = { gc_stopic_TIME, gc_stopic_TempA, gc_stopic_Wind, gc_stopic_TempI, gc_stopic_BrghtI, gc_stopic_WaterL, gc_stopic_HumiI, gc_stopic_Rain24h
+                                          , gc_stopic_Btn1_Act, gc_stopic_Btn2_Act};
 char gv_stopic[sizeof(gt_stopic)][MQTT_TOPSZ];
 
 char gv_sbuffer[MQTT_TOPSZ];// buffer for reading the string to (needs to be large enough to take the longest string
@@ -47,3 +50,9 @@ boolean gv_wind_ok;
 
 float gv_waterl;
 boolean gv_waterl_ok;
+
+boolean gv_button1_active = false;
+boolean gv_button2_active = false;
+boolean gv_button3_active = false;
+boolean gv_button4_active = false;
+boolean gv_button_changed = false;

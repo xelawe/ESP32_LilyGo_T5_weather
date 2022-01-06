@@ -29,6 +29,7 @@ void loop()
     get_draw_pic();
 
     display_values();
+    display_touch();
 
     epd_draw_grayscale_image(epd_full_screen(), framebuffer);
     epd_poweroff();
@@ -42,6 +43,16 @@ void loop()
     min_tick = false;
   }
 
+  if (gv_button_changed) {
+    epd_poweron();
+    display_touch();
+
+    epd_draw_grayscale_image(epd_full_screen(), framebuffer);
+    epd_poweroff();
+    gv_button_changed = false;
+  }
+
+  
   check_touch();
 
 }

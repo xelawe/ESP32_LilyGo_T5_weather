@@ -34,26 +34,6 @@ void check_touch() {
         pub_touch( gv_state);
       }
 
-
-      //      epd_poweron();
-      //      cursor_x = 20;
-      //      cursor_y = 60;
-      //      switch (state) {
-      //        case 0:
-      //          break;
-      //        case 1:
-      //          break;
-      //        case 2:
-      //          break;
-      //        case 3:
-      //          break;
-      //        case 4:
-      //          break;
-      //        default:
-      //          break;
-      //      }
-      //      epd_poweroff();
-
       while (digitalRead(TOUCH_INT)) {
       }
       while (digitalRead(TOUCH_INT)) {
@@ -87,26 +67,16 @@ void init_touch() {
   }
   Serial.println("Started Touchscreen poll...");
 
-  //Draw Box
-  epd_draw_rect(touch_btn1_x, touch_btn1_y, touch_btn1_w, touch_btn1_h, 0, framebuffer);
-  cursor_x = touch_btn1_x + 15;
-  cursor_y = touch_btn1_y + touch_lbl_y_offs;
-  writeln((GFXfont *)&FiraSans, "Btn1", &cursor_x, &cursor_y, framebuffer);
-
-  epd_draw_rect(touch_btn2_x, touch_btn2_y, touch_btn2_w, touch_btn2_h, 0, framebuffer);
-  cursor_x = touch_btn2_x + 15;
-  cursor_y = touch_btn2_y + touch_lbl_y_offs;
-  writeln((GFXfont *)&FiraSans, "Btn2", &cursor_x, &cursor_y, framebuffer);
-
-  epd_draw_rect(touch_btn3_x, touch_btn3_y, touch_btn3_w, touch_btn3_h, 0, framebuffer);
-  cursor_x = touch_btn3_x + 15;
-  cursor_y = touch_btn3_y + touch_lbl_y_offs;
-  writeln((GFXfont *)&FiraSans, "Btn3", &cursor_x, &cursor_y, framebuffer);
-
-  epd_draw_rect(touch_btn4_x, touch_btn4_y, touch_btn4_w, touch_btn4_h, 0, framebuffer);
-  cursor_x = touch_btn4_x + 15;
-  cursor_y = touch_btn4_y + touch_lbl_y_offs;
-  writeln((GFXfont *)&FiraSans, "Btn4", &cursor_x, &cursor_y, framebuffer);
+  display_touch();
 
   epd_draw_grayscale_image(epd_full_screen(), framebuffer);
+}
+
+void display_touch() {
+
+  draw_button(touch_btn1_x, touch_btn1_y, touch_btn1_w, touch_btn1_h, gv_button1_active );
+  draw_button(touch_btn2_x, touch_btn2_y, touch_btn2_w, touch_btn2_h, gv_button2_active );
+  draw_button(touch_btn3_x, touch_btn3_y, touch_btn3_w, touch_btn3_h, gv_button3_active );
+  draw_button(touch_btn4_x, touch_btn4_y, touch_btn4_w, touch_btn4_h, gv_button4_active );
+
 }

@@ -12,6 +12,8 @@ void init_mqtt_local() {
   add_subtopic(mqtt_GetTopic_P(gv_stopic[5], mqtt_pre_none, gv_clientname, get_stopic_ix(5)), callback_WaterL);
   add_subtopic(mqtt_GetTopic_P(gv_stopic[6], mqtt_pre_cmnd, gv_clientname, get_stopic_ix(6)), callback_HumiI);
   add_subtopic(mqtt_GetTopic_P(gv_stopic[7], mqtt_pre_none, gv_clientname, get_stopic_ix(7)), callback_Rain24h);
+  add_subtopic(mqtt_GetTopic_P(gv_stopic[8], mqtt_pre_cmnd, gv_clientname, get_stopic_ix(8)), callback_Btn1_Act);
+  add_subtopic(mqtt_GetTopic_P(gv_stopic[9], mqtt_pre_cmnd, gv_clientname, get_stopic_ix(9)), callback_Btn2_Act);
 }
 
 
@@ -59,6 +61,34 @@ void callback_Rain24h(String topic, byte* message, unsigned int length) {
   gv_Rain24h = payload_to_float( message, length);
   gv_Rain24h_ok = true;
 }
+
+void callback_Btn1_Act(String topic, byte* message, unsigned int length) {
+  gv_button1_active = callback_Btn_Act(topic, message,  length);
+}
+
+void callback_Btn2_Act(String topic, byte* message, unsigned int length) {
+  gv_button2_active = callback_Btn_Act(topic, message,  length);
+}
+
+
+
+boolean callback_Btn_Act(String topic, byte* message, unsigned int length) {
+  boolean lv_button_active = false;
+  String messageTemp;
+  for (int i = 0; i < length; i++) {
+    messageTemp += (char)message[i];
+  }
+  Serial.println(messageTemp);
+  
+  if (messageTemp == "ON") {
+    lv_button_active = true;
+  }
+
+  gv_button_changed = true;
+  
+  return lv_button_active;
+}
+
 
 void pub_touch(int iv_button) {
   char buffer[10];

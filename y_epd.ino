@@ -14,7 +14,6 @@ void display_values() {
                + " " + String(dayStr(weekday(lv_now)))
                + " " + String(day(lv_now)) + "." +  String(month(lv_now)) + "." + String(year(lv_now));
 
-
     int cursor_dt_x = 20;
     int cursor_dt_y = 50;
     writeln((GFXfont *)&FiraSans, (char *)disp_str.c_str(), &cursor_dt_x, &cursor_dt_y, framebuffer);
@@ -42,7 +41,7 @@ void display_values() {
   }
   icon_x = icon_x + icon_data_x_offs;
   data_x = data_x + icon_data_x_offs;
-  
+
   Serial.print("Data_X "); Serial.println(data_x);
   if ( gv_wind_ok == true ) {
     Rect_t area = { .x = icon_x, .y = icon_y, .width = icon_wi_width, .height = icon_wi_height };
@@ -82,11 +81,11 @@ void display_values() {
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   icon_x = icon_1_x;
-   icon_y = icon_1_y + icon_data_y_offs;
-   data_x = data_1_x;
-   data_y = data_1_y + icon_data_y_offs;
-  
+  icon_x = icon_1_x;
+  icon_y = icon_1_y + icon_data_y_offs;
+  data_x = data_1_x;
+  data_y = data_1_y + icon_data_y_offs;
+
   if ( gv_temp1 == true ) {
 
     Rect_t area = {
@@ -154,6 +153,35 @@ void display_values() {
 
 }
 
+void draw_button(int touch_btn_x, int touch_btn_y, int touch_btn_w, int touch_btn_h, boolean btn_active ) {
+  //Draw Box
+  epd_draw_rect(touch_btn_x, touch_btn_y, touch_btn_w, touch_btn_h, 255, framebuffer);
+  epd_draw_rect(touch_btn_x, touch_btn_y, touch_btn_w, touch_btn_h, 0, framebuffer);
+
+  //fill Box
+  int color = 0;
+
+  epd_fill_rect(touch_btn_x + 1 , touch_btn_y + 1, touch_btn_w - (1 * 2) , touch_btn_h - (1 * 2), 0, framebuffer);
+  epd_fill_rect(touch_btn_x + 1 , touch_btn_y + 1, touch_btn_w - (1 * 2) , touch_btn_h - (1 * 2), 255, framebuffer);
+
+  for (int i = 1; i < 16; i++) {
+    color = color + 12;
+    if (!btn_active) {
+      epd_draw_hline(touch_btn_x + i, touch_btn_y + touch_btn_h - i, touch_btn_w - (i * 2), color, framebuffer);
+      epd_draw_vline(touch_btn_x + touch_btn_w - i, touch_btn_y + i, touch_btn_h - (i * 2), color, framebuffer);
+    } else {
+      epd_draw_hline(touch_btn_x + i, touch_btn_y + i, touch_btn_w - (i * 2), color, framebuffer);
+      epd_draw_vline(touch_btn_x + i, touch_btn_y + i, touch_btn_h - (i * 2), color, framebuffer);
+    }
+  }
+
+  epd_draw_line(touch_btn_x + 1 , touch_btn_y + 1, touch_btn_x + touch_btn_w - (1 * 2) , touch_btn_y + touch_btn_h - (1 * 2), 128, framebuffer);
+  epd_fill_rect(touch_btn_x + 16 , touch_btn_y + 16, touch_btn_w - (16 * 2) , touch_btn_h - (16 * 2), color + 30, framebuffer);
+
+  //cursor_x = touch_btn_x + 15;
+  //cursor_y = touch_btn_y + touch_lbl_y_offs;
+  //writeln((GFXfont *)&FiraSans, "Btn1", &cursor_x, &cursor_y, framebuffer);
+}
 
 /** Draw the pixels to the screen
 

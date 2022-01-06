@@ -27,4 +27,4 @@ int touch_btn4_w = touch_btn1_w;
 int touch_btn4_h = touch_btn1_h;
 
 
-int touch_lbl_y_offs = 70;
+int touch_lbl_y_offs = 55;
