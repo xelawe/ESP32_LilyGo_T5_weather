@@ -79,4 +79,6 @@ void display_touch() {
   draw_button(touch_btn3_x, touch_btn3_y, touch_btn3_w, touch_btn3_h, gv_button3_active );
   draw_button(touch_btn4_x, touch_btn4_y, touch_btn4_w, touch_btn4_h, gv_button4_active );
 
+  gv_button_changed = false;
+
 }

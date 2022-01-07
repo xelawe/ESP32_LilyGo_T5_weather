@@ -49,7 +49,6 @@ void loop()
 
     epd_draw_grayscale_image(epd_full_screen(), framebuffer);
     epd_poweroff();
-    gv_button_changed = false;
   }
 
   
