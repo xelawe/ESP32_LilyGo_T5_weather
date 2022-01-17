@@ -2,6 +2,12 @@
 #error "Please enable PSRAM !!!"
 #endif
 
+
+// ESP32 Dev Module
+// Flash size 16MB
+// Part. Scheme Huge App 3MB no OTA/1MB SPIFFS
+
+
 #define USE_SERIAL Serial
 #include <cy_serdebug.h>
 #include <cy_serial.h>

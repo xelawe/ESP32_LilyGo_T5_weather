@@ -19,8 +19,11 @@ const char gc_stopic_BrghtI[] PROGMEM = "BrghtI";
 const char gc_stopic_HumiI[] PROGMEM = "HumiI";
 const char gc_stopic_Btn1_Act[] PROGMEM = "Btn1";
 const char gc_stopic_Btn2_Act[] PROGMEM = "Btn2";
-const char* const gt_stopic[] PROGMEM = { gc_stopic_TIME, gc_stopic_TempA, gc_stopic_Wind, gc_stopic_TempI, gc_stopic_BrghtI, gc_stopic_WaterL, gc_stopic_HumiI, gc_stopic_Rain24h
-                                          , gc_stopic_Btn1_Act, gc_stopic_Btn2_Act};
+const char gc_stopic_Btn3_Act[] PROGMEM = "Btn3";
+const char gc_stopic_Btn4_Act[] PROGMEM = "Btn4";
+const char* const gt_stopic[] PROGMEM = { gc_stopic_TIME, gc_stopic_TempA, gc_stopic_Wind, gc_stopic_TempI, gc_stopic_BrghtI
+                                        , gc_stopic_WaterL, gc_stopic_HumiI, gc_stopic_Rain24h
+                                        , gc_stopic_Btn1_Act, gc_stopic_Btn2_Act, gc_stopic_Btn3_Act, gc_stopic_Btn4_Act};
 char gv_stopic[sizeof(gt_stopic)][MQTT_TOPSZ];
 
 char gv_sbuffer[MQTT_TOPSZ];// buffer for reading the string to (needs to be large enough to take the longest string

@@ -14,6 +14,8 @@ void init_mqtt_local() {
   add_subtopic(mqtt_GetTopic_P(gv_stopic[7], mqtt_pre_none, gv_clientname, get_stopic_ix(7)), callback_Rain24h);
   add_subtopic(mqtt_GetTopic_P(gv_stopic[8], mqtt_pre_cmnd, gv_clientname, get_stopic_ix(8)), callback_Btn1_Act);
   add_subtopic(mqtt_GetTopic_P(gv_stopic[9], mqtt_pre_cmnd, gv_clientname, get_stopic_ix(9)), callback_Btn2_Act);
+  add_subtopic(mqtt_GetTopic_P(gv_stopic[10], mqtt_pre_cmnd, gv_clientname, get_stopic_ix(10)), callback_Btn3_Act);
+  add_subtopic(mqtt_GetTopic_P(gv_stopic[11], mqtt_pre_cmnd, gv_clientname, get_stopic_ix(11)), callback_Btn4_Act);
 }
 
 
@@ -70,6 +72,13 @@ void callback_Btn2_Act(String topic, byte* message, unsigned int length) {
   gv_button2_active = callback_Btn_Act(topic, message,  length);
 }
 
+void callback_Btn3_Act(String topic, byte* message, unsigned int length) {
+  gv_button3_active = callback_Btn_Act(topic, message,  length);
+}
+
+void callback_Btn4_Act(String topic, byte* message, unsigned int length) {
+  gv_button4_active = callback_Btn_Act(topic, message,  length);
+}
 
 
 boolean callback_Btn_Act(String topic, byte* message, unsigned int length) {
